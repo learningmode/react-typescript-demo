@@ -1,23 +1,29 @@
-import { useState } from "react"
+import { useContext } from "react"
+import {UserContext} from '../context/UserContext'
 
-type  AuthUser ={
-    name:string,
-    email:string
-}
+
 export const User = ()=>{
- const [user,setUser] = useState({} as AuthUser)
+ const userContext = useContext(UserContext);
  const handleLogin = ()=>{
-     setUser({
-         name:'John Doe',
-         email:'johndoe@example.com'
-     })
+     if(userContext){
+        userContext.setUser({
+            name:'John',
+            email:'john@example.com'
+        })
+     }
+ }
+ const handleLogout = ()=>{
+     if(userContext){
+         userContext.setUser(null);
+     }
  }
 // User cannot logout here
     return(
         <div>
             <button onClick={handleLogin}>Logged In</button>
-            <div>User is {user?.name}</div>
-            <div>Email is {user?.email}</div>
+            <button onClick={handleLogout}>Logged Out</button>
+            <div>User is {userContext?.user?.name}</div>
+            <div>Email is {userContext?.user?.email}</div>
         </div>
     )
 }
